@@ -4,6 +4,7 @@
 # Core dependencies
 opencv-python>=4.8.0
 numpy>=1.24.0
+ultralytics>=8.0.0
 
 # Optional: Intel RealSense SDK support
 # pyrealsense2>=2.50.0
