@@ -1,0 +1,12 @@
+# Depth Camera Testing Scripts - Dependencies
+# Install with: pip install -r requirements.txt
+
+# Core dependencies
+opencv-python>=4.8.0
+numpy>=1.24.0
+
+# Optional: Intel RealSense SDK support
+# pyrealsense2>=2.50.0
+
+# Optional: Azure Kinect SDK support  
+# pyk4a>=1.4.0
