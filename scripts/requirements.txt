@@ -1,13 +1,18 @@
-# Depth Camera Testing Scripts - Dependencies
+# Clocks Verbal — Python Dependencies
 # Install with: pip install -r requirements.txt
 
-# Core dependencies
+# Core
 opencv-python>=4.8.0
 numpy>=1.24.0
+
+# YOLOv8 person detection (weights download automatically on first run)
 ultralytics>=8.0.0
 
-# Optional: Intel RealSense SDK support
+# Window management (focus, minimize, title lookup)
+pygetwindow>=0.0.9
+
+# Optional: Intel RealSense depth camera support
 # pyrealsense2>=2.50.0
 
-# Optional: Azure Kinect SDK support  
+# Optional: Azure Kinect depth camera support
 # pyk4a>=1.4.0
