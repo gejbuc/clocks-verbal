@@ -1,60 +1,55 @@
-# Depth Camera Testing Scripts
+# Scripts
 
-This directory contains testing and validation scripts for the Depth Camera A (1-Megapixel ToF sensor based on HoloLens 2 technology).
+Python scripts for the Clocks Verbal presence detection system, plus legacy
+depth camera testing utilities.
 
-## Camera Specifications
-
-- **Sensor Type**: Time-of-Flight (ToF)
-- **Resolution**: 1024 × 1024 (1 Megapixel)
-- **Technology**: HoloLens 2 depth sensor
-- **Camera Count**: 2 units
-
-## Available Scripts
+## Presence Detection (main system)
 
 | Script | Description |
 |--------|-------------|
-| `camera_discovery.py` | Discover and list all connected depth cameras |
-| `camera_info.py` | Display detailed information about a specific camera |
+| `orchestrator.py` | Main entry point — loads config, runs detector, manages window switching |
+| `person_detector_yolov2.py` | YOLOv8 detector with visual detection zone overlay (recommended for tuning) |
+| `person_detector_yolo.py` | YOLOv8 detector, no zone UI (v1 reference) |
+| `window_manager.py` | Window focus/minimize and process launching via `pygetwindow` |
+
+## Depth Camera Utilities (legacy)
+
+| Script | Description |
+|--------|-------------|
+| `camera_discovery.py` | Discover and list connected depth cameras |
+| `camera_info.py` | Display detailed info about a specific camera |
 | `camera_test_stream.py` | Test streaming from a single camera |
 | `camera_dual_stream.py` | Test simultaneous streaming from both cameras |
 | `depth_capture.py` | Capture depth frames and save to disk |
 | `calibration_check.py` | Verify camera calibration parameters |
 | `performance_benchmark.py` | Benchmark camera performance (FPS, latency) |
-| `visualization.py` | Visualize depth data with color mapping |
+| `visualization.py` | Visualize depth data with colour mapping |
 | `device_validation.py` | Comprehensive validation test suite |
 
 ## Requirements
 
-Install required dependencies:
-
 ```bash
-pip install opencv-python numpy pyrealsense2 pyk4a
+pip install -r requirements.txt
 ```
 
-## Quick Start
+## Running the orchestrator
 
-### 1. Discover cameras
 ```bash
-python camera_discovery.py
+python orchestrator.py                          # uses ../config.json by default
+python orchestrator.py --config my_config.json  # custom config path
 ```
 
-### 2. Test single camera stream
+## Tuning the detection zone
+
+Run the v2 detector standalone to visually adjust zone boundaries before
+committing them to config.json:
+
 ```bash
-python camera_test_stream.py --camera-id 0
+python person_detector_yolov2.py --zone-x1 0.2 --zone-y1 0.15 --zone-x2 0.8 --zone-y2 0.85
 ```
 
-### 3. Test dual camera stream
+All detector options:
+
 ```bash
-python camera_dual_stream.py
+python person_detector_yolov2.py --help
 ```
-
-### 4. Run full validation
-```bash
-python device_validation.py --camera-a 0 --camera-b 1
-```
-
-## Notes
-
-- Camera IDs may vary depending on system configuration
-- Some scripts require specific SDKs (RealSense, Azure Kinect)
-- Run with `--help` for additional options on each script
