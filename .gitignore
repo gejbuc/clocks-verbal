@@ -1,3 +1,6 @@
 # Documentation (keep local)
 *.md
 !README.md
+
+# Model weights
+*.pt
