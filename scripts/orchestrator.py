@@ -49,6 +49,7 @@ except ImportError:
 
 from window_manager import WindowManager
 from transition import FadeTransition
+from anticipation import AnticipationOverlay
 
 
 # ---------------------------------------------------------------------------
@@ -85,6 +86,17 @@ DEFAULT_CONFIG = {
         "enabled": True,
         "duration": 0.5,
         "color": [0, 0, 0],
+    },
+    "anticipation": {
+        "enabled": True,
+        "size": 120,
+        "thickness": 10,
+        "corner": "br",
+        "margin": 30,
+        "color_cold": [80, 80, 220],
+        "color_hot": [0, 220, 80],
+        "drain_steps": 12,
+        "drain_ms": 20,
     },
 }
 
@@ -238,12 +250,18 @@ def detector_thread(cfg: dict, event_queue: queue.Queue, stop_event: threading.E
                         presence_active = True
                         event_queue.put("presence_on")
                         print("[DETECTOR] presence_on")
+                    elif not presence_active:
+                        # Still warming up — tell orchestrator how far along we are
+                        event_queue.put(("warming", consecutive_hits, min_hits))
                 else:
                     consecutive_hits = 0
                     if presence_active and (now - last_detect_time) > timeout:
                         presence_active = False
                         event_queue.put("presence_off")
                         print("[DETECTOR] presence_off")
+                    elif not presence_active:
+                        # Hits dropped — tell orchestrator to drain the arc
+                        event_queue.put(("warming", 0, min_hits))
 
             frame_idx += 1
 
@@ -279,6 +297,9 @@ def run(cfg: dict) -> None:
         else:
             swap_fn()
 
+    # Anticipation overlay
+    anticipation = AnticipationOverlay(cfg.get("anticipation", {}))
+
     state = State.IDLE
     last_active_time = 0.0
 
@@ -313,8 +334,17 @@ def run(cfg: dict) -> None:
                 print("[ORCH] Detector reported an error. Shutting down.")
                 break
 
+            elif isinstance(event, tuple) and event[0] == "warming":
+                _, hits, min_hits = event
+                if state == State.IDLE:
+                    if hits == 0:
+                        anticipation.hide()
+                    else:
+                        anticipation.show(hits, min_hits)
+
             elif event == "presence_on":
                 if state == State.IDLE:
+                    anticipation.hide()   # dismiss arc before transition
                     if wm.is_running(active_title):
                         print("[ORCH] Presence detected — switching to ACTIVE.")
                         def _to_active():
@@ -348,6 +378,7 @@ def run(cfg: dict) -> None:
     finally:
         stop_event.set()
         det_thread.join(timeout=3.0)
+        anticipation.close()
         player.stop()
         print("[ORCH] Shutdown complete.")
 
