@@ -48,6 +48,7 @@ except ImportError:
     sys.exit(1)
 
 from window_manager import WindowManager
+from transition import FadeTransition
 
 
 # ---------------------------------------------------------------------------
@@ -80,6 +81,11 @@ DEFAULT_CONFIG = {
     "idle_player_title": "VLC media player",
     "grace_period_seconds": 3.0,
     "switch_delay_seconds": 0.3,
+    "transition": {
+        "enabled": True,
+        "duration": 0.5,
+        "color": [0, 0, 0],
+    },
 }
 
 
@@ -258,6 +264,21 @@ def run(cfg: dict) -> None:
     active_title  = cfg["active_window_title"]
     grace_period  = cfg["grace_period_seconds"]
 
+    # Build fade transition (or a no-op if disabled)
+    t_cfg    = cfg.get("transition", {})
+    t_enabled = t_cfg.get("enabled", True)
+    fade     = FadeTransition(
+        duration=t_cfg.get("duration", 0.5),
+        color=tuple(t_cfg.get("color", [0, 0, 0])),
+    ) if t_enabled else None
+
+    def do_swap(swap_fn):
+        """Run swap_fn wrapped in a fade, or directly if transitions are off."""
+        if fade:
+            fade.run(swap_fn)
+        else:
+            swap_fn()
+
     state = State.IDLE
     last_active_time = 0.0
 
@@ -296,9 +317,10 @@ def run(cfg: dict) -> None:
                 if state == State.IDLE:
                     if wm.is_running(active_title):
                         print("[ORCH] Presence detected — switching to ACTIVE.")
-                        player.send_back()
-                        time.sleep(delay)
-                        wm.focus(active_title, delay=delay)
+                        def _to_active():
+                            player.send_back()
+                            wm.focus(active_title, delay=delay)
+                        do_swap(_to_active)
                         state = State.ACTIVE
                         last_active_time = time.monotonic()
                     else:
@@ -316,7 +338,9 @@ def run(cfg: dict) -> None:
                         print(f"[ORCH] Presence lost — waiting {remaining:.1f}s grace period.")
                         time.sleep(remaining)
                     print("[ORCH] Grace period done — returning to IDLE.")
-                    player.bring_forward(delay=delay)
+                    def _to_idle():
+                        player.bring_forward(delay=delay)
+                    do_swap(_to_idle)
                     state = State.IDLE
 
     except KeyboardInterrupt:

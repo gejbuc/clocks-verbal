@@ -23,5 +23,11 @@
     "idle_player_title": "VLC media player",
 
     "grace_period_seconds": 3.0,
-    "switch_delay_seconds": 0.3
+    "switch_delay_seconds": 0.3,
+
+    "transition": {
+        "enabled": true,
+        "duration": 0.5,
+        "color": [0, 0, 0]
+    }
 }
