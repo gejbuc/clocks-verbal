@@ -8,6 +8,8 @@ depth camera testing utilities.
 | Script | Description |
 |--------|-------------|
 | `orchestrator.py` | Main entry point — loads config, runs detector, manages window switching |
+| `anticipation.py` | Arc overlay — warmup progress indicator shown before presence fires |
+| `transition.py` | Fade-to-black overlay — masks the hard window swap |
 | `person_detector_yolov2.py` | YOLOv8 detector with visual detection zone overlay (recommended for tuning) |
 | `person_detector_yolo.py` | YOLOv8 detector, no zone UI (v1 reference) |
 | `window_manager.py` | Window focus/minimize and process launching via `pygetwindow` |
