@@ -29,5 +29,17 @@
         "enabled": true,
         "duration": 0.5,
         "color": [0, 0, 0]
+    },
+
+    "anticipation": {
+        "enabled": true,
+        "size": 120,
+        "thickness": 10,
+        "corner": "br",
+        "margin": 30,
+        "color_cold": [80, 80, 220],
+        "color_hot": [0, 220, 80],
+        "drain_steps": 12,
+        "drain_ms": 20
     }
 }
