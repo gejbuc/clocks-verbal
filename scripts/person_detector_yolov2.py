@@ -382,7 +382,7 @@ def parse_args() -> argparse.Namespace:
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     # Camera / model
-    p.add_argument("--camera-id", "-c", type=int, default=0,
+    p.add_argument("--camera-id", "-c", type=int, default=1,
                    help="Camera device index")
     p.add_argument("--model", "-m", choices=["n", "s", "m", "l", "x"], default="n",
                    help="YOLOv8 model size (n=nano … x=extra-large)")
@@ -405,13 +405,13 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--max-failures", type=int, default=10,
                    help="Consecutive frame-grab failures before aborting")
     # Detection zone (fractional, 0.0–1.0)
-    p.add_argument("--zone-x1", type=float, default=0.20,
+    p.add_argument("--zone-x1", type=float, default=0.08,
                    help="Zone left edge as fraction of frame width")
-    p.add_argument("--zone-y1", type=float, default=0.15,
+    p.add_argument("--zone-y1", type=float, default=0.62,
                    help="Zone top edge as fraction of frame height")
-    p.add_argument("--zone-x2", type=float, default=0.80,
+    p.add_argument("--zone-x2", type=float, default=0.55,
                    help="Zone right edge as fraction of frame width")
-    p.add_argument("--zone-y2", type=float, default=0.85,
+    p.add_argument("--zone-y2", type=float, default=0.90,
                    help="Zone bottom edge as fraction of frame height")
     p.add_argument("--zone-opacity", type=float, default=0.08,
                    help="Opacity of the zone fill tint (0–1)")
