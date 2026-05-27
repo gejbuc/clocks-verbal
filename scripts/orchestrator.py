@@ -64,7 +64,7 @@ class State(Enum):
 # ---------------------------------------------------------------------------
 
 DEFAULT_CONFIG = {
-    "camera_id": 0,
+    "camera_id": 1,
     "detection": {
         "model": "n",
         "confidence": 0.45,
@@ -73,7 +73,7 @@ DEFAULT_CONFIG = {
         "presence_timeout": 2.0,
         "min_hits": 2,
         "max_failures": 10,
-        "zone": {"x1": 0.20, "y1": 0.15, "x2": 0.80, "y2": 0.85},
+        "zone": {"x1": 0.08, "y1": 0.62, "x2": 0.55, "y2": 0.90},
     },
     "active_window_title": "",
     "idle_video_path": "",
