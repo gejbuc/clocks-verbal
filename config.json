@@ -13,7 +13,13 @@
             "y1": 0.62,
             "x2": 0.55,
             "y2": 0.90
-        }
+        },
+        "zone_poly": [
+            [0.10, 0.90],
+            [0.50, 0.90],
+            [0.40, 0.62],
+            [0.18, 0.62]
+        ]
     },
     "active_window_title": "Mediapipe_Tshirt (64-bit Development PCD3D_SM6)",
     "idle_video_path": "C:/media/idle.mp4",
