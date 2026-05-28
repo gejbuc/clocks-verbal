@@ -76,6 +76,7 @@ DEFAULT_CONFIG = {
         "min_hits": 2,
         "max_failures": 10,
         "zone": {"x1": 0.08, "y1": 0.62, "x2": 0.55, "y2": 0.90},
+        "zone_poly": [[0.10, 0.90], [0.50, 0.90], [0.40, 0.62], [0.18, 0.62]],
     },
     "active_window_title": "",
     "idle_video_path": "",
