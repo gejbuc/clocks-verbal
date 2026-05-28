@@ -108,8 +108,23 @@ Double-click the `kill.bat` file to cleanly terminate the background orchestrato
         // Consecutive frame-grab failures before the detector gives up
         "max_failures": 10,
         // Detection zone as fractions of frame size (0.0–1.0)
-        // Only detections overlapping this rectangle count toward presence
-        "zone": { "x1": 0.20, "y1": 0.15, "x2": 0.80, "y2": 0.85 }
+        // Legacy rectangular fallback — used only when zone_poly is absent
+        "zone": { "x1": 0.20, "y1": 0.15, "x2": 0.80, "y2": 0.85 },
+
+        // Trapezoidal detection zone — preferred over "zone" when present.
+        // Four [x, y] points in normalised coords (0.0–1.0), listed in order:
+        // bottom-left, bottom-right, top-right, top-left.
+        // The bottom edge should be wider (close to camera) and the top edge
+        // narrower (far from camera) to match the perspective of a floor zone
+        // viewed by a front-facing camera.
+        // Presence is triggered when a person's feet (bottom-centre of their
+        // bounding box) fall inside this polygon.
+        "zone_poly": [
+            [0.10, 0.90],
+            [0.50, 0.90],
+            [0.40, 0.62],
+            [0.18, 0.62]
+        ]
     },
 
     // Substring of the tracking app's window title
@@ -163,6 +178,8 @@ Double-click the `kill.bat` file to cleanly terminate the background orchestrato
 
 ## Tuning the detection zone
 
+### Rectangular zone (legacy)
+
 Run the v2 detector standalone to visually position the zone before
 committing values to config.json:
 
@@ -175,6 +192,32 @@ python scripts/person_detector_yolov2.py --zone-x1 0.2 --zone-y1 0.15 --zone-x2 
 - Press `r` to reset the zone to defaults, `q` to quit
 
 All options: `python scripts/person_detector_yolov2.py --help`
+
+### Trapezoidal zone (recommended for front-facing cameras)
+
+A front-facing camera looking at a floor zone introduces perspective
+distortion — the zone appears wider at the bottom (close to camera) and
+narrower at the top (far from camera). A rectangle cannot model this
+accurately; `zone_poly` lets you define the real shape as a trapezoid.
+
+Set `zone_poly` in `config.json` as four `[x, y]` points in normalised
+(0.0–1.0) coordinates, going bottom-left → bottom-right → top-right →
+top-left:
+
+```jsonc
+"zone_poly": [
+    [0.10, 0.90],   // bottom-left  (wide, close to camera)
+    [0.50, 0.90],   // bottom-right
+    [0.40, 0.62],   // top-right    (narrow, far from camera)
+    [0.18, 0.62]    // top-left
+]
+```
+
+When `zone_poly` is present it takes priority over `zone`. The hit test
+checks the **feet position** (bottom-centre of the bounding box) against
+the polygon using `cv2.pointPolygonTest`, so only people actually standing
+inside the trapezoid trigger presence. If `zone_poly` is removed or absent,
+the system falls back to the legacy rectangular `zone`.
 
 ---
 
