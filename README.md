@@ -67,6 +67,13 @@ python scripts/orchestrator.py --config path/to/config.json
 
 Press `Ctrl+C` to stop.
 
+### 5. Run in the Background (Quiet Mode)
+
+To run the system completely in the background without a persistent console window, double-click the `run.bat` file. This script will execute hidden and launch the orchestrator quietly.
+
+**To stop the background process:**
+Double-click the `kill.bat` file to cleanly terminate the background orchestrator and the VLC video player.
+
 ## Config Reference
 
 ```jsonc
