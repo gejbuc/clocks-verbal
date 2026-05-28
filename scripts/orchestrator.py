@@ -255,7 +255,10 @@ def detector_thread(cfg: dict, event_queue: queue.Queue, stop_event: threading.E
                 if results and results[0].boxes is not None:
                     for box in results[0].boxes:
                         x1, y1, x2, y2 = box.xyxy[0].cpu().numpy().astype(int)
-                        if x2 > zx1 and x1 < zx2 and y2 > zy1 and y1 < zy2:
+                        # Test feet position (bottom-center of bbox) against polygon
+                        feet_x = (x1 + x2) // 2
+                        feet_y = y2
+                        if cv2.pointPolygonTest(zone_pts, (float(feet_x), float(feet_y)), False) >= 0:
                             zone_hit = True
                             break
 
