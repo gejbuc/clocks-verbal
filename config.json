@@ -1,6 +1,5 @@
 {
-    "camera_id": 0,
-
+    "camera_id": 1,
     "detection": {
         "model": "n",
         "confidence": 0.45,
@@ -10,18 +9,15 @@
         "min_hits": 2,
         "max_failures": 10,
         "zone": {
-            "x1": 0.20,
-            "y1": 0.15,
-            "x2": 0.80,
-            "y2": 0.85
+            "x1": 0.08,
+            "y1": 0.62,
+            "x2": 0.55,
+            "y2": 0.90
         }
     },
-
-    "active_window_title": "mediapipe (64-bit Development PCD3D_SM6)",
-
+    "active_window_title": "Mediapipe_Tshirt (64-bit Development PCD3D_SM6)",
     "idle_video_path": "C:/media/idle.mp4",
     "idle_player_title": "VLC media player",
-
     "grace_period_seconds": 3.0,
     "switch_delay_seconds": 0.3
 }
