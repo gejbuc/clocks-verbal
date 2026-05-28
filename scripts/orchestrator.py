@@ -223,10 +223,25 @@ def detector_thread(cfg: dict, event_queue: queue.Queue, stop_event: threading.E
 
             if frame_idx % interval == 0:
                 fh, fw = frame.shape[:2]
-                zx1 = int(zone["x1"] * fw)
-                zy1 = int(zone["y1"] * fh)
-                zx2 = int(zone["x2"] * fw)
-                zy2 = int(zone["y2"] * fh)
+
+                # Build zone polygon in pixel coords.
+                # Prefer zone_poly (trapezoid) over legacy rect zone.
+                poly_norm = cfg["detection"].get("zone_poly")
+                if poly_norm:
+                    zone_pts = np.array(
+                        [[int(p[0] * fw), int(p[1] * fh)] for p in poly_norm],
+                        dtype=np.int32,
+                    )
+                else:
+                    # Fall back to rectangle defined by x1/y1/x2/y2
+                    zx1 = int(zone["x1"] * fw)
+                    zy1 = int(zone["y1"] * fh)
+                    zx2 = int(zone["x2"] * fw)
+                    zy2 = int(zone["y2"] * fh)
+                    zone_pts = np.array(
+                        [[zx1, zy1], [zx2, zy1], [zx2, zy2], [zx1, zy2]],
+                        dtype=np.int32,
+                    )
 
                 results = model(
                     frame,
