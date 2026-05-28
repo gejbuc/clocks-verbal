@@ -1,6 +1,5 @@
 {
-    "camera_id": 0,
-
+    "camera_id": 1,
     "detection": {
         "model": "n",
         "confidence": 0.45,
@@ -10,36 +9,15 @@
         "min_hits": 2,
         "max_failures": 10,
         "zone": {
-            "x1": 0.20,
-            "y1": 0.15,
-            "x2": 0.80,
-            "y2": 0.85
+            "x1": 0.08,
+            "y1": 0.62,
+            "x2": 0.55,
+            "y2": 0.90
         }
     },
-
-    "active_window_title": "mediapipe (64-bit Development PCD3D_SM6)",
-
+    "active_window_title": "Mediapipe_Tshirt (64-bit Development PCD3D_SM6)",
     "idle_video_path": "C:/media/idle.mp4",
     "idle_player_title": "VLC media player",
-
     "grace_period_seconds": 3.0,
-    "switch_delay_seconds": 0.3,
-
-    "transition": {
-        "enabled": true,
-        "duration": 0.5,
-        "color": [0, 0, 0]
-    },
-
-    "anticipation": {
-        "enabled": true,
-        "size": 120,
-        "thickness": 10,
-        "corner": "br",
-        "margin": 30,
-        "color_cold": [80, 80, 220],
-        "color_hot": [0, 220, 80],
-        "drain_steps": 12,
-        "drain_ms": 20
-    }
+    "switch_delay_seconds": 0.3
 }
