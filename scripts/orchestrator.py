@@ -398,6 +398,8 @@ def run(cfg: dict) -> None:
         stop_event.set()
         det_thread.join(timeout=3.0)
         anticipation.close()
+        if fade:
+            fade.close()
         player.stop()
         print("[ORCH] Shutdown complete.")
 
