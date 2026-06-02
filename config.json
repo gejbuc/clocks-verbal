@@ -36,6 +36,6 @@
     "active_window_title": "Mediapipe_Tshirt (64-bit Development PCD3D_SM6)",
     "idle_video_path": "C:/media/idle.mp4",
     "idle_player_title": "VLC media player",
-    "grace_period_seconds": 3.0,
+    "grace_period_seconds": 0.3,
     "switch_delay_seconds": 0.3
 }
