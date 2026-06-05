@@ -100,10 +100,10 @@ WINDOW_NAME = "Person Detector v2 (YOLOv8 + Detection Zone)"
 
 # Default trapezoid — matches config.json zone_poly default
 DEFAULT_ZONE_POLY = [
-    [0.0, 0.73],
-    [0.87, 0.82],
-    [0.72, 0.62],
-    [0.0, 0.65],
+    [0.005, 0.700],
+    [0.005, 0.770],
+    [0.615, 0.625],
+    [0.050, 0.630],
 ]
 
 # Colours (BGR)
