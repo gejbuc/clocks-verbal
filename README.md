@@ -120,10 +120,10 @@ Double-click the `kill.bat` file to cleanly terminate the background orchestrato
         // Presence is triggered when a person's feet (bottom-centre of their
         // bounding box) fall inside this polygon.
         "zone_poly": [
-            [0.10, 0.90],
-            [0.50, 0.90],
-            [0.40, 0.62],
-            [0.18, 0.62]
+            [0.005, 0.700],
+            [0.005, 0.770],
+            [0.615, 0.625],
+            [0.050, 0.630]
         ]
     },
 
@@ -206,10 +206,10 @@ top-left:
 
 ```jsonc
 "zone_poly": [
-    [0.10, 0.90],   // bottom-left  (wide, close to camera)
-    [0.50, 0.90],   // bottom-right
-    [0.40, 0.62],   // top-right    (narrow, far from camera)
-    [0.18, 0.62]    // top-left
+    [0.005, 0.700], // bottom-left  (wide, close to camera)
+    [0.005, 0.770], // bottom-right
+    [0.615, 0.625], // top-right    (narrow, far from camera)
+    [0.050, 0.630]  // top-left
 ]
 ```
 
