@@ -5,7 +5,7 @@
         "confidence": 0.45,
         "iou": 0.45,
         "detection_interval": 2,
-        "presence_timeout": 2.0,
+        "presence_timeout": 0.3,
         "min_hits": 2,
         "max_failures": 10,
         "zone": {
